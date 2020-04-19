@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        
+                           http://www.springframework.org/schema/beans/spring-beans.xsd        
+                           http://code.alibabatech.com/schema/dubbo        
+                           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+                           
+	<!-- 提供方应用消息，用于计算依赖 -->
+    <dubbo:application name="hello-world-provider"/>
+    
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
+    
+    <dubbo:registry address="zookeeper://10.3.57.106:2181" id="zk" file="d:/cache.cache"/>
+    
+    <dubbo:protocol name="dubbo" port="20881"/>
+    
+    <!-- 
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" ref="demoService" registry="zk"/>
+    
+    <bean id="demoService" class="com.dubbo.demo.provider.HelloWorldServiceImpl"/> 
+    -->
+    
+    <!-- 测试分组   服务分组功能实现-->
+    <!-- 
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" group="chinaGroup" protocol="dubbo" ref="chinaService" registry="zk"/>
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" group="englishGroup" protocol="dubbo" ref="englishService" registry="zk"/>
+    
+    <bean id="chinaService" class="com.dubbo.demo.group.ChinaHelloWorldImpl"/>
+    <bean id="englishService" class="com.dubbo.demo.group.EnglishHelloWorldImpl"/> 
+    -->
+    
+    <!-- 测试版本号 -->
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" timeout="20" version="1.0" protocol="dubbo" ref="versionService1" registry="zk"/>
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" version="2.0" protocol="dubbo" ref="versionService2" registry="zk"/>
+    
+    <bean id="versionService1" class="com.dubbo.demo.version.HelloWorldImplVersion1"/>
+    <bean id="versionService2" class="com.dubbo.demo.version.HelloWorldImplVersion2"/> 
+    
+</beans>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        
+                           http://www.springframework.org/schema/beans/spring-beans.xsd        
+                           http://code.alibabatech.com/schema/dubbo        
+                           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+                           
+	<!-- 提供方应用消息，用于计算依赖 -->
+    <dubbo:application name="hello-world-provider"/>
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
+    <!-- 配置到注册中心中 eg:zookeeper,如果想配置在集群中  address="192.168.20.102:2181?backup=ip:port"
+     	 需要引入zookeeper和zkClient的包-->
+    <dubbo:registry address="10.3.57.106:2181" protocol="zookeeper" id="zk"/>
+    <dubbo:registry address="multicast://224.5.6.7:1234" id="mt"/>  <!-- 发布一个点到点的注册中心 -->
+    <!-- 发布出去的端口 -->
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <dubbo:protocol name="hessian" port="8099" server="jetty"/> <!-- hessian协议，server表示启动web容器 -->
+    
+    <!-- 声明需要暴露的服务接口 一个服务注册在zk中，一个服务注册在mt中-->
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" ref="demoService" protocol="dubbo" registry="zk"/>
+    <dubbo:service interface="com.dubbo.demo.api.IHelloWorldService" ref="demoService2" protocol="dubbo" registry="mt"/>
+    <!-- 和本地bean一样实现服务 -->
+    <bean id="demoService" class="com.dubbo.demo.provider.HelloWorldServiceImpl"/>
+    <bean id="demoService2" class="com.dubbo.demo.provider.HelloWorldServiceImpl2"/>
+</beans>

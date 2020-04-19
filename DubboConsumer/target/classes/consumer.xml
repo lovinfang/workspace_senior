@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        
+                           http://www.springframework.org/schema/beans/spring-beans.xsd        
+                           http://code.alibabatech.com/schema/dubbo        
+                           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 提供方应用消息，用于计算依赖，具有唯一性 -->
+    <dubbo:application name="hello-world-app-consumer"/>
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
+    <!-- 不注册到任何服务上 -->
+    <dubbo:registry address="N/A"/> 
+    <!-- 配置到注册中心中 eg:zookeeper,如果想配置在集群中  address="192.168.20.102:2181?backup=ip:port"
+     	 需要引入zookeeper和zkClient的包-->
+    <!-- <dubbo:registry address="192.168.20.102:2181" protocol="zookeeper"/> -->
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <!-- 声明需要暴露的接口 -->
+    <dubbo:reference interface="com.dubbo.demo.api.IHelloWorldService" id="demoService" 
+    	protocol="hessian" url="hessian://192.168.44.1:8099/com.dubbo.demo.api.IHelloWorldService"/>
+    <dubbo:reference interface="com.dubbo.demo.api.IHelloWorldService" id="demoService2" 
+    	protocol="dubbo" url="dubbo://192.168.44.1:20881/com.dubbo.demo.api.IHelloWorldService2"/>
+</beans>

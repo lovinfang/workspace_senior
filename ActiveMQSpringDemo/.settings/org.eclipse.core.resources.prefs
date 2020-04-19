@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/com/tgb/SpringActivemq/mq/consumer/queue=UTF-8
+encoding//src/com/tgb/SpringActivemq/mq/consumer/topic=UTF-8
+encoding//src/com/tgb/SpringActivemq/mq/producer/queue/QueueSender.java=UTF-8
+encoding//src/com/tgb/SpringActivemq/mq/producer/topic/TopicSender.java=UTF-8
